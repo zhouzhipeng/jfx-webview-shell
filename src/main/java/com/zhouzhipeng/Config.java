@@ -1,6 +1,6 @@
 package com.zhouzhipeng;
 
-public class Plugin {
+public class Config {
 
     private String bridgeClassName;
     private String name;

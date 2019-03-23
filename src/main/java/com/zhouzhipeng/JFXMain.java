@@ -1,43 +1,31 @@
 package com.zhouzhipeng;
 
 
-import com.alibaba.fastjson.JSONArray;
 import com.sun.javafx.webkit.WebConsoleListener;
 import javafx.beans.property.ReadOnlyObjectProperty;
-import net.dongliu.requests.Requests;
 import netscape.javascript.JSObject;
 
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Arrays;
-import java.util.List;
-
 public class JFXMain extends Application {
 
-    //    @Override
+    @Override
     public void start(Stage stage) throws Exception {
-        Plugin defaultPlugin = PluginLoader.getDefaultPlugin();
+        Config config = ConfigLoader.getConfig();
 
 
-        stage.setWidth(defaultPlugin.getWindowWidth());
-        stage.setHeight(defaultPlugin.getWindowHeight());
+        stage.setWidth(config.getWindowWidth());
+        stage.setHeight(config.getWindowHeight());
         Scene scene = new Scene(new Group());
 
-        stage.setTitle(defaultPlugin.getName());
+        stage.setTitle(config.getName());
 
 
         final WebView browser = new WebView();
@@ -61,7 +49,7 @@ public class JFXMain extends Application {
 
                 JSObject win = (JSObject) webEngine.executeScript("window");
 
-                win.setMember(defaultPlugin.getJsName(), PluginLoader.getJavaObj(webEngine.getDocument()));
+                win.setMember(config.getJsName(), ConfigLoader.getJavaObj(webEngine.getDocument()));
             }
 
         });
@@ -72,7 +60,7 @@ public class JFXMain extends Application {
         });
 
 
-        webEngine.loadContent(PluginLoader.getHomePageContent());
+        webEngine.loadContent(ConfigLoader.getHomePageContent());
 
 //        webEngine.executeScript("if (!document.getElementById('FirebugLite')){E = document['createElement' + 'NS'] && document.documentElement.namespaceURI;E = E ? document['createElement' + 'NS'](E, 'script') : document['createElement']('script');E['setAttribute']('id', 'FirebugLite');E['setAttribute']('src', 'https://getfirebug.com/' + 'firebug-lite.js' + '#startOpened');E['setAttribute']('FirebugLite', '4');(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);E = new Image;E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');}");
 
@@ -85,22 +73,11 @@ public class JFXMain extends Application {
 //        webEngine.executeScript()
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void run() {
+        //加载配置
+        ConfigLoader.loadConfig();
 
-
-        //加载默认插件
-//        List<Plugin> plugins= JSONArray.parseArray(Requests.get("https://api.zhouzhipeng.com/common/plugin-list").send().readToText(),Plugin.class);
-//        Plugin plugin = plugins.get(0);
-        Plugin plugin = new Plugin();
-        plugin.setJsName("jb");
-        plugin.setBridgeClassName("com.zhouzhipeng.test.JavaBridge");
-        plugin.setName("【一键外网可见】客户端");
-        plugin.setWindowHeight(600);
-        plugin.setWindowWidth(500);
-        PluginLoader.loadPlugin(plugin);
-
-
-        launch(args);
+        launch();
 
         System.out.println("start up");
 
