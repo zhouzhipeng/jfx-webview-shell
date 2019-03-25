@@ -3,20 +3,10 @@ package com.zhouzhipeng;
 public class Config {
 
     private String bridgeClassName;
-    private String name;
-    private String jsName;
-    private int windowWidth;
-    private int windowHeight;
-
-    private boolean devMode;
-
-    public boolean isDevMode() {
-        return devMode;
-    }
-
-    public void setDevMode(boolean devMode) {
-        this.devMode = devMode;
-    }
+    private String title ="默认标题";
+    private String jsName="jb";
+    private int windowWidth=500;
+    private int windowHeight=600;
 
     public int getWindowWidth() {
         return windowWidth;
@@ -51,12 +41,12 @@ public class Config {
         this.bridgeClassName = bridgeClassName;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 }

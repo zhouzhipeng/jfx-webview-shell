@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 public class JFXMain extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Config config = ConfigLoader.getConfig();
 
 
@@ -25,7 +25,7 @@ public class JFXMain extends Application {
         stage.setHeight(config.getWindowHeight());
         Scene scene = new Scene(new Group());
 
-        stage.setTitle(config.getName());
+        stage.setTitle(config.getTitle());
 
 
         final WebView browser = new WebView();
